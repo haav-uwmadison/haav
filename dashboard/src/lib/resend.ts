@@ -1,7 +1,7 @@
 // Everything the newsletter needs from Resend: the subscriber list (a Resend segment), the preview email and the
 // broadcast. The only module besides notify.ts that talks to Resend.
 import { Resend } from "resend";
-import { NEWSLETTER_FROM, SEGMENT_NAME } from "./newsletter-config";
+import { NEWSLETTER_FROM, NEWSLETTER_REPLY_TO, SEGMENT_NAME } from "./newsletter-config";
 
 export const resendConfigured = () => Boolean(process.env.RESEND_API_KEY);
 
@@ -78,13 +78,13 @@ type Message = { subject: string; preview: string | null; html: string; text: st
 
 /** Sends one email (not a broadcast) to `to`. `tag` goes in front of the subject, e.g. "[Preview]". */
 export async function sendPreviewEmail(to: string | readonly string[], m: Message, tag = "[Preview]"): Promise<void> {
-  must(await resend().emails.send({ from: NEWSLETTER_FROM, to: [...(typeof to === "string" ? [to] : to)], subject: `${tag} ${m.subject}`, html: m.html, text: m.text }));
+  must(await resend().emails.send({ from: NEWSLETTER_FROM, replyTo: NEWSLETTER_REPLY_TO, to: [...(typeof to === "string" ? [to] : to)], subject: `${tag} ${m.subject}`, html: m.html, text: m.text }));
 }
 
 /** Creates the broadcast and sends it to the whole segment right away. `key` makes a repeated click a no-op. */
 export async function sendBroadcast(name: string, m: Message, key: string): Promise<string> {
   const created = await resend().broadcasts.create(
-    { name, segmentId: await segment(), from: NEWSLETTER_FROM, subject: m.subject, previewText: m.preview ?? undefined, html: m.html, text: m.text, send: true },
+    { name, segmentId: await segment(), from: NEWSLETTER_FROM, replyTo: NEWSLETTER_REPLY_TO, subject: m.subject, previewText: m.preview ?? undefined, html: m.html, text: m.text, send: true },
     { headers: { "Idempotency-Key": key } }
   );
   return must(created).id;

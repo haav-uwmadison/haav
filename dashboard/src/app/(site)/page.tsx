@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ADVISORS, GROUPS, TEAM } from "@/lib/team";
 import { CONTACT_EMAIL, SITE_DESCRIPTION, pageMetadata } from "@/lib/site";
+import { PROGRESS, type ProgressPhoto } from "@/lib/progress";
 import { SPONSORS, type Sponsor } from "@/lib/sponsors";
 import { TIMELINE } from "@/lib/timeline";
 import { InquiryForm } from "./inquiry-form";
@@ -77,6 +78,12 @@ export default function Page() {
             <li key={t} className="rounded-full border border-zinc-200 px-3 py-1 text-zinc-600 dark:border-zinc-700 dark:text-zinc-400">{t}</li>
           ))}
         </ul>
+      </section>
+
+      <section id="progress" className={section}>
+        <h2 className={h2}>Progress</h2>
+        <p className={prose}>Our model boat floats, and the full design is taking shape in CAD.</p>
+        <ProgressGallery photos={PROGRESS} />
       </section>
 
       <section id="groups" className={section}>
@@ -216,6 +223,31 @@ function SponsorList({ sponsors }: { sponsors: readonly Sponsor[] }) {
               style={s.width ? { width: `min(100%, ${s.width}px)` } : undefined}
             />
           </a>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+// The first photo is shown full width and the rest in two columns, each with a caption.
+function ProgressGallery({ photos }: { photos: readonly ProgressPhoto[] }) {
+  return (
+    <ul aria-label="Progress photos" className="mt-8 grid items-start gap-6 sm:grid-cols-2">
+      {photos.map((p, i) => (
+        <li key={p.src} className={i === 0 ? "sm:col-span-2" : undefined}>
+          <figure>
+            <div className="overflow-hidden rounded-lg border border-zinc-200 bg-white shadow-sm dark:border-zinc-700">
+              <Image
+                src={p.src}
+                alt={p.alt}
+                width={p.width}
+                height={p.height}
+                sizes={i === 0 ? "(min-width: 672px) 624px, calc(100vw - 3rem)" : "(min-width: 672px) 300px, calc(100vw - 3rem)"}
+                className="h-auto w-full"
+              />
+            </div>
+            <figcaption className="mt-2 text-sm text-zinc-500">{p.caption}</figcaption>
+          </figure>
         </li>
       ))}
     </ul>

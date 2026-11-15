@@ -8,6 +8,9 @@ export const ADMIN_PASSCODE = "fastandfurious";
 /** The sender. Its domain must be verified in Resend, or sending to the list fails (previews to the Resend account owner still work). */
 export const NEWSLETTER_FROM = "Haav Newsletter <newsletter@haav.build>";
 
+/** Where replies to a newsletter go. Set as the Reply-To header, so a reply reaches a real inbox with no mail setup on haav.build. */
+export const NEWSLETTER_REPLY_TO = CONTACT_EMAIL;
+
 /** Where "Send preview to me" delivers. */
 export const PREVIEW_EMAIL = CONTACT_EMAIL;
 

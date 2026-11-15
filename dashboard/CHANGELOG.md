@@ -3,6 +3,15 @@
 See [`../docs/VERSIONING.md`](../docs/VERSIONING.md) for how this file and `package.json`'s `version`
 are kept — this folder versions independently of `cad/`, `optimization/`, and `docs/`.
 
+## 0.8.4 — 2026-11-14
+
+Home page: new "Progress" section with five photos (the model boat floating, the build, and CAD of the hull session, top
+cover and motor mount). Photos live in `public/progress/`; captions and sizes are in `src/lib/progress.ts`.
+
+Newsletters now carry a Reply-To header (`NEWSLETTER_REPLY_TO`, the contact address), so a reply to any newsletter reaches
+a real inbox. The kickoff newsletter gained a "How you can help" section, three more photos (model boat floating, top
+cover, motor mount) and updated target dates.
+
 ## 0.8.3 — 2026-11-09
 
 First newsletter (`newsletters/2026-11-kickoff/`) with its photos and sponsor logos. New `<Sponsor>` tag for newsletters: a
